@@ -1,14 +1,20 @@
-import { Hono } from "hono";
-
+import authConfig from "@/lib/auth.config";
+import { Context, Hono } from "hono";
+import { AuthConfig, initAuthConfig } from "@hono/auth-js";
 import { handle } from "hono/vercel";
 
 export const runtime = "nodejs";
 
+function getAuthConfig(c: Context): AuthConfig {
+  return {
+    secret: process.env.AUTH_SECRET,
+    ...authConfig,
+  };
+}
+
 const app = new Hono().basePath("/api");
 
-app.get("/hello", (c) => {
-  return c.json({ hello: "world" });
-});
+app.use("*", initAuthConfig(getAuthConfig));
 
 export const GET = handle(app);
 export const POST = handle(app);
