@@ -3,6 +3,7 @@ import { Context, Hono } from "hono";
 import { AuthConfig, initAuthConfig } from "@hono/auth-js";
 import { handle } from "hono/vercel";
 
+import userRoutes from "@/app/api/[[...route]]/user";
 export const runtime = "nodejs";
 
 function getAuthConfig(c: Context): AuthConfig {
@@ -13,10 +14,11 @@ function getAuthConfig(c: Context): AuthConfig {
 }
 
 const app = new Hono().basePath("/api");
-
+const routes = app.route("/user", userRoutes);
 app.use("*", initAuthConfig(getAuthConfig));
 
 export const GET = handle(app);
 export const POST = handle(app);
 export const PATCH = handle(app);
 export const DELETE = handle(app);
+export type AppType = typeof routes;
