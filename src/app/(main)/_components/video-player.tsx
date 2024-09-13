@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useCheckPremium } from "@/lib/hooks/users/use-check-premium";
 
 export const VideoPlayer = () => {
@@ -10,7 +11,10 @@ export const VideoPlayer = () => {
   if (!isPremium) {
     return (
       <div>
-        <h1>Upgrade to Premium to watch this video</h1>
+        <h1>
+          <p>Upgrade to Premium to watch this video</p>
+        </h1>
+        <Button className="w-full mt-10">Upgrade</Button>
       </div>
     );
   }
