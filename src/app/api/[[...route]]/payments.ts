@@ -41,8 +41,7 @@ const app = new Hono()
       await db
         .update(users)
         .set({ isPremium: true })
-        .where(eq(users.email, session.token.email))
-        .run();
+        .where(eq(users.email, session.token.email));
 
       return c.json({ data: "payment success" }, 200);
     }
