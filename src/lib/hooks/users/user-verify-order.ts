@@ -33,10 +33,10 @@ export const useVerifyPayment = () => {
       }
     },
     onError: (error) => {
-      toast.error(error.message || "Error creating order");
+      toast.error(error.message || "Error verifying order");
     },
     onSuccess: () => {
-      toast.success("Order created successfully");
+      toast.success("Payment verified successfully");
     },
   });
 
