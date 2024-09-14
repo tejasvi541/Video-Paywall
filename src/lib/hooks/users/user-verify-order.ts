@@ -4,19 +4,19 @@ import { InferResponseType } from "hono";
 import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.payments)["create-order"]["$post"],
+  (typeof client.api.payments)["verify-payment"]["$post"],
   200
 >;
 
 type RequestType = Parameters<
-  (typeof client.api.payments)["create-order"]["$post"]
+  (typeof client.api.payments)["verify-payment"]["$post"]
 >[0]["json"];
 
-export const useCreateOrder = () => {
+export const useVerifyPayment = () => {
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async (json) => {
       try {
-        const response = await client.api.payments["create-order"].$post({
+        const response = await client.api.payments["verify-payment"].$post({
           json,
         });
 
