@@ -5,6 +5,7 @@ import { handle } from "hono/vercel";
 
 import userRoutes from "@/app/api/[[...route]]/user";
 import paymentsRoutes from "@/app/api/[[...route]]/payments";
+import videRoutes from "@/app/api/[[...route]]/video";
 export const runtime = "nodejs";
 
 function getAuthConfig(_c: Context): AuthConfig {
@@ -18,7 +19,8 @@ const app = new Hono().basePath("/api");
 app.use("*", initAuthConfig(getAuthConfig));
 const routes = app
   .route("/user", userRoutes)
-  .route("/payments", paymentsRoutes);
+  .route("/payments", paymentsRoutes)
+  .route("/video", videRoutes);
 
 export const GET = handle(app);
 export const POST = handle(app);
