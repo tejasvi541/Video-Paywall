@@ -8,7 +8,13 @@ const Upgrade = () => {
   const createOrderMutation = useCreateOrder();
   const verifyOrderMutation = useVerifyPayment();
 
-  const verifyPayment = async (orderData: any) => {
+  interface OrderData {
+    razorpay_order_id: string;
+    razorpay_payment_id: string;
+    razorpay_signature: string;
+  }
+
+  const verifyPayment = async (orderData: OrderData) => {
     verifyOrderMutation.mutate(
       {
         orderId: orderData.razorpay_order_id,
@@ -34,11 +40,21 @@ const Upgrade = () => {
       },
       {
         onSuccess: async (data) => {
-          const paymentObject = new (window as any).Razorpay({
+          interface RazorpayWindow extends Window {
+            Razorpay: new (options: any) => any;
+          }
+
+          const paymentObject = new (
+            window as unknown as RazorpayWindow
+          ).Razorpay({
             key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
             order_id: data.data.id,
             ...data.data,
-            handler: async function (response: any) {
+            handler: async function (response: {
+              razorpay_order_id: string;
+              razorpay_payment_id: string;
+              razorpay_signature: string;
+            }) {
               console.log(response);
 
               orderData = response;

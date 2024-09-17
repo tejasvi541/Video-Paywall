@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 //   (typeof client.api.user)["isPremium"]["$get"]
 // >;
 
-export const useCheckPremium = (IFrameUrl: string) => {
+export const useSignedUrl = (IFrameUrl: string) => {
   const query = useQuery({
     queryKey: ["signedUrl"],
     queryFn: async () => {
